@@ -1,0 +1,13 @@
+{
+  "name": "API-practise",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "express": "4.17.1",
+    "uuid": "^8.3.2"
+  },
+  "scripts": {
+    "start": "nodemon server.js"
+  }
+}
