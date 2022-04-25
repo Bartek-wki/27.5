@@ -9,7 +9,6 @@ class SeatChooser extends React.Component {
   componentDidMount() {
     const { loadSeats } = this.props;
     loadSeats();
-    //this.setState({ timer: setInterval(() => { loadSeats() }, 120000) })
     this.timer = setInterval(() => loadSeats(), 120000);
   }
 
