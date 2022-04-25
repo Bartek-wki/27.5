@@ -8,14 +8,14 @@ router.route('/seats').get((req, res) => {
   res.json(db.seats);
 });
 
+router.route('/seats/random').get((req, res) => {
+  res.json(db.seats[Math.floor(Math.random() * (db.seats.length))]);
+});
+
 router.route('/seats/:id').get((req, res) => {
-  if (req.params.id !== 'random') {
-    let id = req.params.id;
-    id = parseInt(id);
-    res.json(db.seats.find(person => person.id === id));    
-  } else if (req.params.id === 'random') {
-    res.json(db.seats[Math.floor(Math.random() * (db.seats.length))]);
-  }
+  let id = req.params.id;
+  id = parseInt(id);
+  res.json(db.seats.find(person => person.id === id));    
 });
 
 router.route('/seats').post((req, res) => {
