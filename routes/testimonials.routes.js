@@ -8,14 +8,14 @@ router.route('/testimonials').get((req, res) => {
   res.json(db.testimionals);
 });
 
+router.route('/testimonials/:random').get((req, res) => {
+  res.json(db.testimionals[Math.floor(Math.random() * (db.testimionals.length))]);
+});
+
 router.route('/testimonials/:id').get((req, res) => {
-  if (req.params.id !== 'random') {
     let id = req.params.id;
     id = parseInt(id);
     res.json(db.testimionals.find(person => person.id === id));    
-  } else if (req.params.id === 'random') {
-    res.json(db.testimionals[Math.floor(Math.random() * (db.testimionals.length))]);
-  }
 });
 
 router.route('/testimonials').post((req, res) => {

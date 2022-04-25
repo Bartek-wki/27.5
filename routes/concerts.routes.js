@@ -8,14 +8,14 @@ router.route('/concerts').get((req, res) => {
   res.json(db.concerts);
 });
 
+router.route('/concerts/random').get((req, res) => {
+  res.json(db.concerts[Math.floor(Math.random() * (db.concerts.length))]);
+});
+
 router.route('/concerts/:id').get((req, res) => {
-  if (req.params.id !== 'random') {
     let id = req.params.id;
     id = parseInt(id);
     res.json(db.concerts.find(person => person.id === id));    
-  } else if (req.params.id === 'random') {
-    res.json(db.concerts[Math.floor(Math.random() * (db.concerts.length))]);
-  }
 });
 
 router.route('/concerts').post((req, res) => {
