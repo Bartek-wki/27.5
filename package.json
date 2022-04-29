@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "main": "server.js",
   "license": "MIT",
-  "homepage": "https://festival-react-api.herokuapp.com/",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "4.17.1",

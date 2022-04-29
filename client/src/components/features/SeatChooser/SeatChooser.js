@@ -8,16 +8,16 @@ import './SeatChooser.scss';
 class SeatChooser extends React.Component {
   
   componentDidMount() {
-    if (process.env.NODE_ENV === 'production') {
+    /*if (process.env.NODE_ENV === 'production') {
       this.socket = io();
     } else {
       this.socket = io("http://localhost:8000")
-    }
+    }*/
     const { loadSeats, seatsUpdated } = this.props;
 
-    this.socket.on('seatsUpdated', (seats) => {
+    /*this.socket.on('seatsUpdated', (seats) => {
       seatsUpdated(seats)
-    })
+    })*/
     loadSeats();
   }
   
