@@ -6,6 +6,8 @@ const socket = require('socket.io');
 const app = express();
 
 app.use(express.static(path.join(__dirname, '/client/build')));
+app.use(express.static(path.join(__dirname, '..', 'public')));
+
 
 // import routes
 const testimonialsRoutes = require('./routes/testimonials.routes');
