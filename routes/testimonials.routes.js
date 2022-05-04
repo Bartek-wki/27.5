@@ -1,53 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const db = require('./../db');
-const { v4: uuidv4 } = require('uuid');
+const TestiomialController = require('../controllers/testimonials.controller')
 
+router.route('/testimonials').get(TestiomialController.getAll);
 
-router.route('/testimonials').get((req, res) => {
-  res.json(db.testimionals);
-});
+router.route('/testimonials/random').get(TestiomialController.getRandom);
 
-router.route('/testimonials/:random').get((req, res) => {
-  res.json(db.testimionals[Math.floor(Math.random() * (db.testimionals.length))]);
-});
+router.route('/testimonials/:id').get(TestiomialController.getById);
 
-router.route('/testimonials/:id').get((req, res) => {
-    let id = req.params.id;
-    id = parseInt(id);
-    res.json(db.testimionals.find(person => person.id === id));    
-});
+router.route('/testimonials').post(TestiomialController.post);
 
-router.route('/testimonials').post((req, res) => {
-  const { author, text } = req.body;
-  const id = uuidv4();
-  db.testimionals.push({ id: id, author: author, text: text });
-  res.send({ message: 'Ok!' });
-})
+router.route('/testimonials/:id').put(TestiomialController.put);
 
-router.route('/testimonials/:id').put((req, res) => {
-  const { author, text } = req.body;
-  let id = req.params.id;
-  id = parseInt(id);
-  db.testimionals.forEach((element, index) => {
-    if (db.testimionals[index].id === id) {
-      db.testimionals[index] = { id: id, author: author, text: text };
-    }
-  })
-  res.send({ message: 'Ok!' });
-})
+router.route('/testimonials/:id').delete(TestiomialController.delete);
 
-router.route('/testimonials/:id').delete((req, res) => {
-  let id = req.params.id;
-  id = parseInt(id);
-  for (const person of db.testimionals) {
-    const indexOf = db.testimionals.indexOf(person);
-
-    if (person.id === id) {
-      db.testimionals.splice(indexOf, 1);
-    }
-  }
-  res.send({ message: 'Ok!' });
-})
 
 module.exports = router;
