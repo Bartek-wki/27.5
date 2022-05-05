@@ -37,8 +37,16 @@ app.use((req, res) => {
 })
 
 // connects our backend code with the database
-mongoose.connect('mongodb+srv://Bartek-wki:badaw352@cluster0.qoovd.mongodb.net/NewWaveDB?retryWrites=true&w=majority', { useNewUrlParser: true });
+const NODE_ENV = process.env.NODE_ENV;
+let dbUri = '';
+
+if(NODE_ENV === 'production') dbUri = 'mongodb+srv://Bartek-wki:badaw352@cluster0.qoovd.mongodb.net/NewWaveDB?retryWrites=true&w=majority';
+else if(NODE_ENV === 'test') dbUri = 'mongodb://localhost:27017/NewWaveDBtest';
+else dbUri = 'mongodb://localhost:27017/NewWaveDB';
+
+mongoose.connect(dbUri, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
+
 
 db.once('open', () => {
   console.log('Connected to the database');
@@ -48,6 +56,8 @@ db.on('error', err => console.log('Error ' + err));
 const server = app.listen(process.env.PORT || 8000, () => {
   console.log('Server is running on port: 8000');
 });
+
+module.exports = server
 
 const io = socket(server);
 
