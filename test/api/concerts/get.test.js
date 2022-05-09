@@ -1,7 +1,8 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../../../server');
-const Concert = require('../../../models/concerts.model')
+const Concert = require('../../../models/concerts.model');
+const Seat = require('../../../models/seats.models');
 
 chai.use(chaiHttp);
 
@@ -16,6 +17,12 @@ describe('GET /api/concerts', () => {
 
     const testConcertTwo = new Concert({performer: "Rebekah Parker", genre: "R&B", price: 25, day: 1, image: "image"});
     await testConcertTwo.save();
+
+    const testSeatOne = new Seat({ day: 1, seat: 1, client: "Bartek", email: "bartekwilki@gmail.com" });
+    await testSeatOne.save();
+
+    const testSeatTwo = new Seat({ day: 1, seat: 2, client: "Ola", email: "olawilki@gmail.com" });
+    await testSeatTwo.save();
   });
 
   after(async () => {
@@ -49,5 +56,12 @@ describe('GET /api/concerts', () => {
     expect(res.body).to.be.an('array');
     expect(res.body.length).to.be.equal(2);
   })
-  
+
+  it('/ should return all concerts', async () => {
+    const res = await request(server).get('/api/concerts');
+    expect(res.status).to.be.equal(200);
+    expect(res.body).to.be.an('array');
+    expect(res.body.length).to.be.equal(2);
+    expect(res.body[0].ticketsLeft).to.not.be.undefined;
+  })
 });
