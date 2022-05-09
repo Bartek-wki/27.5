@@ -1,8 +1,23 @@
-const Concert = require('../models/concerts.model')
+const Concert = require('../models/concerts.model');
+const Seat = require('../models/seats.models');
 
 exports.getAll = async (req, res) => {
   try {
-    res.json(await Concert.find());
+    const concerts = await Concert.find().lean();
+    const seatsFirstDay = await Seat.find({day: 1});
+    const seatsSecondDay = await Seat.find({ day: 2 });
+    const seatsThirdDay = await Seat.find({ day: 3 });
+
+    for (let concert of concerts) {
+      if (concert.day === 1) {
+        concert.ticketsLeft = 50 - seatsFirstDay.length
+      } else if (concert.day === 2) {
+        concert.ticketsLeft = 50 - seatsSecondDay.length
+      } else if (concert.day === 3) {
+        concert.ticketsLeft = 50 - seatsThirdDay.length
+      }
+    }
+    await res.json(concerts);
   }
   catch (err) {
     res.status(500).json({ message: err });
