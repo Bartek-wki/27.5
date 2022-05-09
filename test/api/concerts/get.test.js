@@ -27,6 +27,7 @@ describe('GET /api/concerts', () => {
 
   after(async () => {
     await Concert.deleteMany();
+    await Seat.deleteMany();
   });
 
   it('/performer/:performer should return concerts of a chosen artist', async () => {
