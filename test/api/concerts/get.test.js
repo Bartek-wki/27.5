@@ -64,5 +64,6 @@ describe('GET /api/concerts', () => {
     expect(res.body).to.be.an('array');
     expect(res.body.length).to.be.equal(2);
     expect(res.body[0].ticketsLeft).to.not.be.undefined;
+    expect(res.body[0].workshops).to.be.an('array');
   })
 });

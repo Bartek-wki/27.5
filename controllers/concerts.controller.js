@@ -1,5 +1,6 @@
 const Concert = require('../models/concerts.model');
 const Seat = require('../models/seats.models');
+const Workshop = require('../models/workshops.model');
 
 exports.getAll = async (req, res) => {
   try {
@@ -7,6 +8,7 @@ exports.getAll = async (req, res) => {
     const seatsFirstDay = await Seat.find({day: 1});
     const seatsSecondDay = await Seat.find({ day: 2 });
     const seatsThirdDay = await Seat.find({ day: 3 });
+    const workshops = await Workshop.find();
 
     for (let concert of concerts) {
       if (concert.day === 1) {
@@ -15,6 +17,14 @@ exports.getAll = async (req, res) => {
         concert.ticketsLeft = 50 - seatsSecondDay.length
       } else if (concert.day === 3) {
         concert.ticketsLeft = 50 - seatsThirdDay.length
+      }
+
+      concert.workshops = [];
+
+      for (let workshop of workshops) {
+        if (concert._id == workshop.concertId) {
+          concert.workshops.push(workshop.name);
+        }
       }
     }
     await res.json(concerts);
