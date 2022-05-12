@@ -39,8 +39,9 @@ app.use((req, res) => {
 // connects our backend code with the database
 const NODE_ENV = process.env.NODE_ENV;
 let dbUri = '';
+const password = process.env.password;
 
-if(NODE_ENV === 'production') dbUri = 'mongodb+srv://Bartek-wki:badaw352@cluster0.qoovd.mongodb.net/NewWaveDB?retryWrites=true&w=majority';
+if(NODE_ENV === 'production') dbUri = 'mongodb+srv://Bartek-wki:' + password + '@cluster0.qoovd.mongodb.net/NewWaveDB?retryWrites=true&w=majority';
 else if(NODE_ENV === 'test') dbUri = 'mongodb://localhost:27017/NewWaveDBtest';
 else dbUri = 'mongodb://localhost:27017/NewWaveDB';
 
