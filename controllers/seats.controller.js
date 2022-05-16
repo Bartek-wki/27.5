@@ -1,3 +1,4 @@
+const { escape } = require('mocha/lib/utils');
 const sanitize = require('mongo-sanitize');
 
 const Seat = require('../models/seats.models')
@@ -41,7 +42,9 @@ exports.post = async (req, res) => {
   try {
     //const { day, seat, client, email } = sanitize(req.body)
     //const { day, seat, client, email } = req.body;
-    const day = sanitize(req.body.day);
+    const day = escape(req.body.req)
+    //const day = sanitize(req.body.day);
+    console.log(day);
     const seat = sanitize(req.body.seat);
     const client = sanitize(req.body.client);
     const email = sanitize(req.body.email);
