@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Alert, Container } from 'reactstrap';
+import PricesContainer from '../../features/Prices/PricesContainer';
 
 const Prices = () => (
   <Container>
@@ -10,16 +11,7 @@ const Prices = () => (
     <Alert color="info">
         Attention! <strong>Children under 4 can go freely with you without any other fee!</strong>
     </Alert>
-
-    <h2>Day one</h2>
-    <p>Price: 25$</p>
-    <p>Workshops: "Rock Music Style", "How to make you voice grooowl", "Make your voice stronger", "History of Rock"</p>
-    <h2>Day Two</h2>
-    <p>Price: 25$</p>
-    <p>Workshops: "Find your real tune", "Find your real YOU", "Fell the music", "Jam session"</p>
-    <h2>Day three</h2>
-    <p>Price: 50$</p>
-    <p>Workshops: "Increase your vocal range", "How to properly warmup before singing", "It's time for YOU!"</p>
+    <PricesContainer />
   </Container>
 );
 
