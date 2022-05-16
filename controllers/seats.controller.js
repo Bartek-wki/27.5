@@ -1,5 +1,5 @@
-const { escape } = require('mocha/lib/utils');
 const sanitize = require('mongo-sanitize');
+const escape = require('escape-regexp');
 
 const Seat = require('../models/seats.models')
 
@@ -40,15 +40,10 @@ exports.getById = async (req, res) => {
 
 exports.post = async (req, res) => {
   try {
-    //const { day, seat, client, email } = sanitize(req.body)
-    //const { day, seat, client, email } = req.body;
-    const day = escape(req.body.req)
-    //const day = sanitize(req.body.day);
-    console.log(day);
-    const seat = sanitize(req.body.seat);
-    const client = sanitize(req.body.client);
-    const email = sanitize(req.body.email);
-    console.log(client)
+    const client = escape(req.body.client)
+    const day = escape(req.body.day);
+    const seat = escape(req.body.seat);
+    const email = escape(req.body.email);
     const newSeat = new Seat({ day: day, seat: seat, client: client, email: email });
     await newSeat.save();
     req.io.emit('seatsUpdated', await Seat.find())
