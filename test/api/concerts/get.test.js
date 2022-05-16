@@ -50,6 +50,16 @@ describe('GET /api/concerts', () => {
     expect(res.body).to.be.an('array');
     expect(res.body.length).to.be.equal(2);
   })
+
+  it('/price/:price_min/:price_max should return error if price_min is not a number', async () => {
+    const res = await request(server).get('/api/concerts/price/text/30');
+    expect(res.status).to.be.equal(404);
+  })
+
+  it('/price/:price_min/:price_max should return error if price_max is not a number', async () => {
+    const res = await request(server).get('/api/concerts/price/25/text');
+    expect(res.status).to.be.equal(404);
+  })
   
   it('/day/:day should return concerts of a chosen day', async () => {
     const res = await request(server).get('/api/concerts/day/1');

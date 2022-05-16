@@ -5,26 +5,17 @@ const Workshop = require('../models/workshops.model');
 exports.getAll = async (req, res) => {
   try {
     const concerts = await Concert.find().lean();
-    const seatsFirstDay = await Seat.find({day: 1});
-    const seatsSecondDay = await Seat.find({ day: 2 });
-    const seatsThirdDay = await Seat.find({ day: 3 });
-    const workshops = await Workshop.find();
 
     for (let concert of concerts) {
-      if (concert.day === 1) {
-        concert.ticketsLeft = 50 - seatsFirstDay.length
-      } else if (concert.day === 2) {
-        concert.ticketsLeft = 50 - seatsSecondDay.length
-      } else if (concert.day === 3) {
-        concert.ticketsLeft = 50 - seatsThirdDay.length
-      }
+      const workshops = await Workshop.find({ concertId: concert._id });
+      const seats = await Seat.find({ day: concert.day });
+
+      concert.ticketsLeft = 50 - seats.length
 
       concert.workshops = [];
 
       for (let workshop of workshops) {
-        if (concert._id == workshop.concertId) {
-          concert.workshops.push(workshop.name);
-        }
+        concert.workshops.push(workshop.name)
       }
     }
     await res.json(concerts);
@@ -84,9 +75,13 @@ exports.getByPrice = async (req, res) => {
   try {
     const maxPrice = parseInt(req.params.price_max);
     const minPrice = parseInt(req.params.price_min);
-    const concerts = await Concert.find({ $and: [{ price: { $gte: minPrice } }, { price: { $lte: maxPrice } }] });
-    if (concerts.length === 0) res.status(404).json({ message: 'Not found' });
-    else res.json(concerts);
+    if (isNaN(maxPrice) || isNaN(minPrice)) {
+      res.status(404).json({ message: 'Not found' });
+    } else {
+      const concerts = await Concert.find({ $and: [{ price: { $gte: minPrice } }, { price: { $lte: maxPrice } }] });
+      if (concerts.length === 0) res.status(404).json({ message: 'Not found' });
+      else res.json(concerts);
+    }
   }
   catch (err) {
     res.status(500).json({ message: err });
